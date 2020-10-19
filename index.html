@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Amicable Numbers</title>
+        <meta description="Amicable Numbers" author="Mico">
+        <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+        <style>
+            
+            #container {
+                font-family: 'Courier New', Courier, monospace;
+                font-size: larger;
+                position: absolute;
+                margin: 0;
+                top: 50%;
+                left: 50%;
+                margin-right: -50%;
+                transform: translate(-50%, -50%);
+                box-shadow: 0 4px 8px 0 rgba(90, 179, 102, 0.2);
+                background-color: #b9b9c0;
+                min-width: 30%;
+                min-height: 30%;
+            }
+
+            body {
+                background-color:#e6ebff;
+            }
+
+
+            #handleButton {
+                margin-left: auto;
+                background-color: #4CAF50; /* Green */
+                border: none;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 16px;
+                border-radius: 8px;
+                cursor: pointer;
+                display: block;
+                margin-left: 40%;
+                margin-top: 20%;
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            }
+
+            
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <form id="myForm">
+                Enter first number 
+                <input type="number" name="1"> 
+                <br />
+                <br />
+                Enter second number
+                <input type="number" name="2">
+                <br />
+                <br />
+                <button id="handleButton" onclick="areAmicable()">submit</button>
+            </form>
+        </div>
+        <script>
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            function areAmicable (){
+                var n1 = document.getElementById('myForm').elements.namedItem("1").value;
+                var n2 = document.getElementById('myForm').elements.namedItem("2").value;
+                // Testing code
+                //document.getElementById('container').innerHTML = n1 + " and " + n2 + " are not amicable "\
+
+                n1Factors = getFactors(n1);
+                n2Factors = getFactors(n2);
+                var message;
+
+                sum1 = addArray(n1Factors); //sum factors of the 1st number
+                sum2 = addArray(n2Factors); //sum factors of the 2nd number
+
+                if (sum1 != parseInt(n2))
+                    message = " are not amicable";
+
+                else if (sum2 != parseInt(n1))
+                    message = " are not amicable";
+
+                else
+                    message = " are amicable";
+
+                //construct the output string
+    
+                document.getElementById('container').innerText = 
+                        "The factors of " + n1 + " are " + showArray(n1Factors) + " and their sum is " + sum1 + ".\n\n" + 
+                        "The factors of " + n2 + " are " + showArray(n2Factors) + " and their sum is " + sum2 + ".\n\n" + 
+                        "Thus, " + n1 + " and " + n2 + message
+
+            }
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // evaluates whether x is a factor of n
+            function isFactor (x, n) {
+                if (x >= n) {
+                    return false;
+                }
+                else {
+                    return (n % x == 0);
+                }
+            }
+            //Testing isFactor
+            // document.getElementById('container').innerHTML = "1 is factor of 220: " + isFactor(1,220) + 
+            //                                             ", 55 is factor of 220:" + isFactor(55,220) + 
+            //                                             ", 220 is factor of 220: " + isFactor(220,220)
+
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // I changed showArray it returns a string that represents the array instead of displaying to DOM
+            function showArray (arr) {
+                if (arr.length == 0)
+                    return [];
+
+                
+                results = "[" + String(arr[0]);
+
+                for (var i = 1; i < arr.length; i++) {
+                        results += ", " + String(arr[i]);
+                }
+
+                results += "]";
+                //document.getElementById('container').innerText = results
+                return results;
+            }
+            //Testing showArray
+            //showArray([1,2,3,4,5,6])
+
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            function addArray(arr) {
+                sum = 0;
+                for (var i = 0; i < arr.length; i++) {
+                    sum += arr[i];
+                }
+                
+                return sum;
+            }
+            //Testing addArray
+            //document.getElementById('container').innerText = addArray([1,2,3,4,5]) //expect 15
+
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            function getFactors (n) {
+                factors = new Array()
+
+                for (var i = 1; i < n; i++) {
+                    if (isFactor (i, n))
+                        factors.push(i);
+                }
+
+                return factors;
+            }
+            // Testing getFactors
+            //showArray(getFactors(220)) //expect [1, 2, 4, 5, 10, 11, 20, 22, 44, 55, 110]
+            //showArray(getFactors(284)) //expect [1, 2, 4, 71, 142]
+
+        </script>
+    </body>
+</html>
